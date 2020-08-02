@@ -23,3 +23,22 @@ Usage
 -----
 
     ./zebbo.py [--autotrack]
+
+Key bindings
+------------
+
+Key bindings are not (yet) configurable.
+
+| Key     | Action                                            |
+| ------- | ------------------------------------------------- |
+| `Up`    | Navigate up                                       |
+| `Down`  | Navigate down                                     |
+| `Left`  | Navigate left                                     |
+| `Right` | Navigate right                                    |
+| `Space` | Expand/collapse a subtree, or cycle through areas |
+| `x`     | Mark a location as visited                        |
+| `C`     | Mark an item as found in Crateria                 |
+| `B`     | Mark an item as found in Brinstar                 |
+| `M`     | Mark an item as found in Maridia                  |
+| `W`     | Mark an item as found in Wrecked Ship             |
+| `N`     | Mark an item as found in Norfair                  |
