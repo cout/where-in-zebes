@@ -1,0 +1,163 @@
+{
+  "Crateria": {
+    "Gauntlet": [
+      "Green Pirates Shaft",
+      "Gauntlet Energy Tank Room"
+    ],
+    "Climb/Parlor": [
+      "The Final Missile",
+      "Pit Room",
+      "Crateria Super Room",
+      "Bomb Torizo Room",
+      "Terminator Room"
+    ],
+    "Outside": [
+      "Missile (outside Wrecked Ship bottom)",
+      "Crateria Power Bomb Room",
+      "The Moat"
+    ]
+  },
+  "Brinstar": {
+    "Blue Brinstar": [
+      "Morphing Ball",
+      "Power Bomb (blue Brinstar)",
+      "Billy Mays Room",
+      "Blue Brinstar Energy Tank Room",
+      "First Missile Room"
+    ],
+    "Green Brinstar": [
+      "Early Supers Room",
+      "Brinstar Reserve Tank Room"
+    ],
+    "Etecoons": [
+      "Etecoon Super Room",
+      "Etecoon Energy Tank Room",
+      "Green Brinstar Main Shaft"
+    ],
+    "Pink Brinstar": [
+      "Big Pink",
+      "Hopper Energy Tank Room",
+      "Spore Spawn Super Room",
+      "Waterway Energy Tank Room",
+      "Pink Brinstar Power Bomb Room",
+      "Green Hill Zone"
+    ],
+    "Red Tower (Up)": [
+      "Alpha Power Bomb Room",
+      "Beta Power Bomb Room"
+    ],
+    "Red Tower (Down)": [
+      "X-Ray Scope Room",
+      "Spazer Room"
+    ],
+    "Warehouse": [
+      "Varia Suit Room",
+      "Warehouse Energy Tank Room",
+      "Warehouse Keyhunter Room"
+    ]
+  },
+  "Wrecked Ship": {
+    "WS Main Shaft": [
+      "Wrecked Ship Main Shaft",
+      "Wrecked Ship East Super Room",
+      "Wrecked Ship West Super Room"
+    ],
+    "Wrecked Ship Etank": [
+      "Wrecked Ship Energy Tank Room"
+    ],
+    "Attic": [
+      "Wrecked Ship East Missile Room",
+      "Missile (outside Wrecked Ship top)",
+      "Missile (outside Wrecked Ship middle)"
+    ],
+    "Bowling": [
+      "Bowling Alley",
+      "Gravity Suit Room"
+    ]
+  },
+  "Maridia": {
+    "Main Street": [
+      "Main Street"
+    ],
+    "Mama Turtle": [
+      "Mama Turtle Room"
+    ],
+    "Sandpits": [
+      "West Sand Hole",
+      "East Sand Hole"
+    ],
+    "Yellow Maridia": [
+      "Watering Hole",
+      "Pseudo Plasma Spark Room"
+    ],
+    "Purple Maridia": [
+      "Botwoon Energy Tank Room",
+      "Space Jump Room",
+      "Aqueduct",
+      "The Precious Room"
+    ],
+    "Plasma": [
+      "Plasma Room"
+    ],
+    "Shaktool": [
+      "Spring Ball Room"
+    ]
+  },
+  "Norfair": {
+    "Business Center": {
+      "Ice": [
+        "Ice Beam Room",
+        "Crumble Shaft"
+      ],
+      "Hi Jump Boots": [
+        "Hi Jump Boots Room",
+        "Hi Jump Energy Tank Room"
+      ],
+      "Cathedral": [
+        "Cathedral"
+      ]
+    },
+    "Bubble Mountain": {
+      "Norfair Reserve": [
+        "Green Bubbles Missile Room",
+        "Norfair Reserve Tank Room"
+      ],
+      "Speed": [
+        "Speed Booster Hall",
+        "Speed Booster Room"
+      ],
+      "Wave": [
+        "Double Chamber",
+        "Wave Beam Room"
+      ],
+      "Bubble Mountain": [
+        "Bubble Mountain"
+      ]
+    },
+    "Crocomire": [
+      "Post Crocomire Power Bomb Room",
+      "Crocomire Escape",
+      "Post Crocomire Missile Room",
+      "Post Crocomire Jump Room",
+      "Crocomire's Room",
+      "Grapple Beam Room"
+    ],
+    "Lower Norfair": {
+      "Golden Torizo": [
+        "Golden Torizo's Room",
+        "Screw Attack Room"
+      ],
+      "Ridley": [
+        "Mickey Mouse Room",
+        "Wasteland",
+        "Ridley Tank Room"
+      ],
+      "Escape": [
+        "Lower Norfair Fireflea Room",
+        "Three Muskateers' Room",
+        "Lower Norfair Spring Ball Maze Room",
+        "Lower Norfair Escape Power Bomb Room"
+      ]
+    }
+  }
+}
