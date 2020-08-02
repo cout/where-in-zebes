@@ -29,11 +29,7 @@ class TallyRenderer(object):
         self.expanded[item] = True
       if not self.selected:
         self.selected = item
-      attr = 0
-      if self.selected == item and self.active:
-        attr |= curses.A_REVERSE
-      if p == 0:
-        attr |= curses.A_DIM
+      attr = self._attr(item, p)
       if child:
         if self.expanded.get(item, None):
           exp = '[-] '
@@ -47,6 +43,14 @@ class TallyRenderer(object):
         pass
       if child and self.expanded.get(item, None):
         self._render_tree(child, path + ( name, ))
+
+  def _attr(self, item, p):
+    attr = 0
+    if self.selected == item and self.active:
+      attr |= curses.A_REVERSE
+    if p == 0:
+      attr |= curses.A_DIM
+    return attr
 
   def handle_input(self, s):
     if s == 'k' or s == curses.KEY_UP:
