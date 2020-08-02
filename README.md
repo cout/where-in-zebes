@@ -42,3 +42,10 @@ Key bindings are not (yet) configurable.
 | `M`     | Mark an item as found in Maridia                  |
 | `W`     | Mark an item as found in Wrecked Ship             |
 | `N`     | Mark an item as found in Norfair                  |
+
+Credits
+-------
+
+This program was inspired by a blog post made by xencake, which sought
+to answer the age-old SM randomizer question, "up or down?"
+(https://xen.garden/2020/04/29/smrat-data.html)
