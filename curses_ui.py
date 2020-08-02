@@ -41,7 +41,10 @@ class TallyRenderer(object):
           exp = '[+] '
       else:
         exp = ''
-      self.window.addstr("%s%s%.1f%% %s\n" % ('  '*n, exp, 100*p, name), attr)
+      try:
+        self.window.addstr("%s%s%.1f%% %s\n" % ('  '*n, exp, 100*p, name), attr)
+      except curses.error:
+        pass
       if child and self.expanded.get(item, None):
         self._render_tree(child, path + ( name, ))
 
