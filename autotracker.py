@@ -1,3 +1,5 @@
+import datetime
+
 from retroarch.network_command_socket import NetworkCommandSocket
 
 class MemoryRegion(object):
@@ -40,8 +42,10 @@ RoomAreas = {
 }
 
 class Autotracker(object):
-  def __init__(self, engine):
+  def __init__(self, engine, clock):
     self.engine = engine
+    self.clock = clock
+
     self.sock = NetworkCommandSocket()
     self.items = 0
     self.beams = 0
@@ -52,13 +56,23 @@ class Autotracker(object):
     region2 = MemoryRegion.read_from(self.sock, 0x0990, 0xef)
     region3 = MemoryRegion.read_from(self.sock, 0xD800, 0x8f)
     # region4 = MemoryRegion.read_from(self.sock, 0x0F80, 0x4f)
-    # region5 = MemoryRegion.read_from(self.sock, 0x05B0, 0x0f)
+    region5 = MemoryRegion.read_from(self.sock, 0x05B0, 0x0f)
 
     room_id = region1.short(0x79B)
     region_id = region1.short(0x79F)
 
     items = region2.short(0x9A4)
     beams = region2.short(0x9A8)
+
+    igt_frames = region2.short(0x9DA)
+    igt_seconds = region2[0x9DC]
+    igt_minutes = region2[0x9DE]
+    igt_hours = region2[0x9E0]
+    fps = 60.0 # TODO
+
+    # Varia randomizer RTA clock
+    rta_frames = region5.short(0x5B8)
+    rta_rollovers = region5.short(0x5BA)
 
     area = RoomAreas[region_id]
     locations = region3.bignum(0xD870, 15)
@@ -74,6 +88,12 @@ class Autotracker(object):
     self.items = items
     self.beams = beams
     self.locations = locations
+
+    if self.clock:
+      self.clock.igt = datetime.timedelta(seconds=igt_hours * 3600 + igt_minutes
+          * 60 + igt_seconds + igt_frames / fps)
+      self.clock.rta = datetime.timedelta(seconds=(rta_frames + (rta_rollovers
+        << 16)) / 60.0)
 
   def item_names(self, items):
     if items & 0x0001: yield 'Varia'

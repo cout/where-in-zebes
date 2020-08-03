@@ -234,12 +234,13 @@ class ItemsRenderer(object):
       self.selected = new
 
 class UI(object):
-  def __init__(self, screen, items, geography, engine, poll):
+  def __init__(self, screen, items, geography, engine, poll, clock):
     self.screen = screen
     self.items = items
     self.geography = geography
     self.engine = engine
     self.poll = poll
+    self.clock = clock
 
     self.window = curses.newwin(0, 0, 0, 2)
     self.window.clear()
@@ -291,7 +292,25 @@ class UI(object):
     self.iwindow.move(0, 0)
     self.iwindow.clear()
     self.items_renderer.render()
+
+    if self.clock:
+      self.iwindow.addstr("\nIGT: %s  RTA: %s" % (
+        self._format_duration(self.clock.igt),
+        self._format_duration(self.clock.rta)))
+
     self.iwindow.refresh()
+
+  def _format_duration(self, d):
+    secs = d.seconds
+    hh = secs // 3600
+    mm = secs % 3600 // 60
+    ss = secs % 60
+    ms =  int(d.microseconds / 1000)
+
+    if hh > 0:
+      return '{:}:{:02}:{:02}:{:03}'.format(hh, mm, ss, ms)
+    else:
+      return '{:}:{:02}:{:03}'.format(mm, ss, ms)
 
   def process_input(self):
     self.window.timeout(1000)
