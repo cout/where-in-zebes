@@ -16,11 +16,17 @@ class TallyRenderer(object):
   def render(self, n=0):
     self.list = [ ]
     if self.tally:
-      self._render_tree(self.tally.probabilities(), ( ))
+      rows = self._rows(self.tally.probabilities(), ( ))
+      for row, attr in rows:
+        try:
+          self.window.addstr(row, attr)
+        except curses.error:
+          pass
     self.window.refresh()
     self.did_expand_one_level = True
 
-  def _render_tree(self, tree, path):
+  def _rows(self, tree, path):
+    rows = [ ]
     n = len(path)
     for name, (p, child) in tree.items():
       item = ( name, path )
@@ -37,12 +43,10 @@ class TallyRenderer(object):
           exp = '[+] '
       else:
         exp = ''
-      try:
-        self.window.addstr("%s%s%.1f%% %s\n" % ('  '*n, exp, 100*p, name), attr)
-      except curses.error:
-        pass
+      rows.append(("%s%s%.1f%% %s\n" % ('  '*n, exp, 100*p, name), attr))
       if child and self.expanded.get(item, None):
-        self._render_tree(child, path + ( name, ))
+        rows.extend(self._rows(child, path + ( name, )))
+    return rows
 
   def _attr(self, item, p):
     attr = 0
