@@ -96,7 +96,12 @@ class Autotracker(object):
     if beams & 0x0008: yield 'Plasma'
 
   def location_ids(self, locations):
-    yield 0 # TODO
+    loc = 0
+    while locations != 0:
+      if locations & 1:
+        yield loc
+      locations >>= 1
+      loc += 1
 
   def set_found(self, area, item):
     self.engine.items.by_type[item].found = True
