@@ -1,9 +1,9 @@
 import curses
 import sys
 
-class Row(object):
-  def __init__(self, item, p, child, highlighted, expanded):
-    self.item = item
+class TallyRow(object):
+  def __init__(self, item_path, p, child, highlighted, expanded):
+    self.item_path = item_path
     self.p = p
     self.child = child
     self.highlighted = highlighted
@@ -18,8 +18,8 @@ class Row(object):
     return attr
 
   def text(self):
-    name, path = self.item
-    level = len(path)
+    level = len(self.item_path) - 1
+    name = self.item_path[-1]
 
     if self.child:
       if self.expanded:
@@ -59,17 +59,17 @@ class TallyRenderer(object):
     rows = [ ]
     n = len(path)
     for name, (p, child) in tree.items():
-      item = ( name, path )
-      self.list.append(item)
+      item_path = path + (name,)
+      self.list.append(item_path)
       if n == 0 and not self.did_expand_one_level:
-        self.expanded[item] = True
+        self.expanded[item_path] = True
       if not self.selected:
-        self.selected = item
-      highlighted = self.selected == item and self.active
-      expanded = self.expanded.get(item, False)
-      rows.append(Row(item, p, child, highlighted, expanded))
-      if child and self.expanded.get(item, None):
-        rows.extend(self._rows(child, path + ( name, )))
+        self.selected = item_path
+      highlighted = self.selected == item_path and self.active
+      expanded = self.expanded.get(item_path, False)
+      rows.append(TallyRow(item_path, p, child, highlighted, expanded))
+      if child and self.expanded.get(item_path, None):
+        rows.extend(self._rows(child, item_path))
     return rows
 
   def handle_input(self, s):
@@ -113,7 +113,7 @@ class TallyRenderer(object):
       self.selected = new
 
   def toggle_marked(self):
-    self.engine.toggle_visited(self.selected[0])
+    self.engine.toggle_visited(self.selected[-1])
 
 class ItemsRenderer(object):
   def __init__(self, window, items, engine):
