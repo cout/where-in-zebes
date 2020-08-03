@@ -1,6 +1,36 @@
 import curses
 import sys
 
+class Row(object):
+  def __init__(self, item, p, child, highlighted, expanded):
+    self.item = item
+    self.p = p
+    self.child = child
+    self.highlighted = highlighted
+    self.expanded = expanded
+
+  def attr(self):
+    attr = 0
+    if self.highlighted:
+      attr |= curses.A_REVERSE
+    if self.p == 0:
+      attr |= curses.A_DIM
+    return attr
+
+  def text(self):
+    name, path = self.item
+    level = len(path)
+
+    if self.child:
+      if self.expanded:
+        exp = '[-] '
+      else:
+        exp = '[+] '
+    else:
+      exp = ''
+
+    return "%s%s%.1f%% %s\n" % ('  '*level, exp, 100*self.p, name)
+
 class TallyRenderer(object):
   def __init__(self, window, engine):
     self.window = window
@@ -17,9 +47,9 @@ class TallyRenderer(object):
     self.list = [ ]
     if self.tally:
       rows = self._rows(self.tally.probabilities(), ( ))
-      for row, attr in rows:
+      for row in rows:
         try:
-          self.window.addstr(row, attr)
+          self.window.addstr(row.text(), row.attr())
         except curses.error:
           pass
     self.window.refresh()
@@ -35,34 +65,12 @@ class TallyRenderer(object):
         self.expanded[item] = True
       if not self.selected:
         self.selected = item
-      attr = self._attr(item, p)
-      row_text = self._row_text(item, p, child)
-      rows.append((row_text, attr))
+      highlighted = self.selected == item and self.active
+      expanded = self.expanded.get(item, False)
+      rows.append(Row(item, p, child, highlighted, expanded))
       if child and self.expanded.get(item, None):
         rows.extend(self._rows(child, path + ( name, )))
     return rows
-
-  def _row_text(self, item, p, child):
-    name, path = item
-    level = len(path)
-
-    if child:
-      if self.expanded.get(item, None):
-        exp = '[-] '
-      else:
-        exp = '[+] '
-    else:
-      exp = ''
-
-    return "%s%s%.1f%% %s\n" % ('  '*level, exp, 100*p, name)
-
-  def _attr(self, item, p):
-    attr = 0
-    if self.selected == item and self.active:
-      attr |= curses.A_REVERSE
-    if p == 0:
-      attr |= curses.A_DIM
-    return attr
 
   def handle_input(self, s):
     if s == 'k' or s == curses.KEY_UP:
