@@ -36,17 +36,25 @@ class TallyRenderer(object):
       if not self.selected:
         self.selected = item
       attr = self._attr(item, p)
-      if child:
-        if self.expanded.get(item, None):
-          exp = '[-] '
-        else:
-          exp = '[+] '
-      else:
-        exp = ''
-      rows.append(("%s%s%.1f%% %s\n" % ('  '*n, exp, 100*p, name), attr))
+      row_text = self._row_text(item, p, child)
+      rows.append((row_text, attr))
       if child and self.expanded.get(item, None):
         rows.extend(self._rows(child, path + ( name, )))
     return rows
+
+  def _row_text(self, item, p, child):
+    name, path = item
+    level = len(path)
+
+    if child:
+      if self.expanded.get(item, None):
+        exp = '[-] '
+      else:
+        exp = '[+] '
+    else:
+      exp = ''
+
+    return "%s%s%.1f%% %s\n" % ('  '*level, exp, 100*p, name)
 
   def _attr(self, item, p):
     attr = 0
