@@ -12,7 +12,8 @@ from autotracker import Autotracker
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Zebbo Probability Engine')
-  parser.add_argument('--autotrack', dest='autotrack', default=False)
+  parser.add_argument('--autotrack', dest='autotrack',
+  action='store_true', default=False)
 
   args = parser.parse_args()
 

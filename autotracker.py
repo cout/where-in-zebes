@@ -13,6 +13,9 @@ class MemoryRegion(object):
   def __getitem__(self, addr):
     return self.s[addr - self.start]
 
+  def __len__(self):
+    return len(self.s)
+
   def short(self, addr):
     lo = self[addr] or 0
     hi = self[addr + 1] or 0
@@ -20,7 +23,7 @@ class MemoryRegion(object):
 
   def bignum(self, addr, size):
     result = 0
-    for i in range(0, len):
+    for i in range(0, size):
       octet = self[addr + i] or 0
       result |= octet << (8 * i)
     return result
@@ -40,8 +43,9 @@ class Autotracker(object):
   def __init__(self, engine):
     self.engine = engine
     self.sock = NetworkCommandSocket()
-    self.collected_items = 0
-    self.collected_beams = 0
+    self.items = 0
+    self.beams = 0
+    self.locations = 0
 
   def poll(self):
     region1 = MemoryRegion.read_from(self.sock, 0x0790, 0x1f)
@@ -63,9 +67,9 @@ class Autotracker(object):
     new_beams = beams & ~self.beams
     new_locations = locations & ~self.locations
 
-    for item in self.item_names(new_items):   self.set_found(area, item)
-    for beams in self.beam_names(new_beams):  self.set_found(area, beam)
-    for locations in new_locations:           self.set_visited(location)
+    for item in self.item_names(new_items):      self.set_found(area, item)
+    for beams in self.beam_names(new_beams):     self.set_found(area, beam)
+    for loc in self.location_ids(new_locations): self.set_visited(loc)
 
     self.items = items
     self.beams = beams
@@ -91,11 +95,14 @@ class Autotracker(object):
     if beams & 0x0004: yield 'Spazer'
     if beams & 0x0008: yield 'Plasma'
 
+  def location_ids(self, locations):
+    yield 0 # TODO
+
   def set_found(self, area, item):
     self.engine.items.by_type[item].found = True
     self.engine.items.by_type[item].found_in = area
     self.engine.mark_dirty()
 
-  def set_visited(self, location):
+  def set_visited(self, location_id):
     self.engine.locations.by_id[location_id].visited = True
     self.engine.mark_dirty()
