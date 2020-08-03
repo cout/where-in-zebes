@@ -68,7 +68,7 @@ class Autotracker(object):
     new_locations = locations & ~self.locations
 
     for item in self.item_names(new_items):      self.set_found(area, item)
-    for beams in self.beam_names(new_beams):     self.set_found(area, beam)
+    for beam in self.beam_names(new_beams):      self.set_found(area, beam)
     for loc in self.location_ids(new_locations): self.set_visited(loc)
 
     self.items = items
