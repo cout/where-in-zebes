@@ -42,16 +42,29 @@ class TallyRenderer(object):
     self.list = [ ]
     self.active = False
     self.did_expand_one_level = False
+    self.start_row = 0
 
   def render(self, n=0):
     self.list = [ ]
     if self.tally:
+      height, width = self.window.getmaxyx()
       rows = self._rows(self.tally.probabilities(), ( ))
-      for row in rows:
+
+      selected_idx = self.list.index(self.selected)
+      if selected_idx >= self.start_row + height:
+        self.start_row = selected_idx - height + 1
+
+      if selected_idx < self.start_row:
+        self.start_row = selected_idx
+
+      end_row = self.start_row + height
+
+      for row in rows[self.start_row:end_row]:
         try:
           self.window.addstr(row.text(), row.attr())
         except curses.error:
           pass
+
     self.window.refresh()
     self.did_expand_one_level = True
 
