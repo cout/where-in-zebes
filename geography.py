@@ -6,6 +6,7 @@ class Geography(object):
     self.geography = Geography.create_geography(raw_geography)
 
     self.regions_by_location = { }
+    self.regions_by_room_name = { }
     self.locations_by_region = { }
     self.create_lookup(raw_geography)
 
@@ -40,6 +41,7 @@ class Geography(object):
           if locs:
             for loc in locs:
               self.regions_by_location[loc] = subregions + [name]
+              self.regions_by_room_name[loc.room] = subregions + [name]
             for sr in subregions:
               self.locations_by_region[sr] = self.locations_by_region.get(sr, [ ])
               self.locations_by_region[sr].extend(locs)

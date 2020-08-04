@@ -33,13 +33,15 @@ class Tally(object):
       return float(self.counts.get(name, 0)) / self.total
 
 class Engine(object):
-  def __init__(self, items, locations, geography, seeds):
+  def __init__(self, items, locations, geography, rooms, seeds):
     self.items = items
     self.locations = locations
     self.geography = geography
+    self.rooms = rooms
     self.seeds = seeds
     self._tally = None
     self._tally_time = None
+    self.current_room = None
 
   def tally(self):
     if self._tally:

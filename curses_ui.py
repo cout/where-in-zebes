@@ -78,11 +78,19 @@ class TallyRenderer(object):
       if not self.selected:
         self.selected = item_path
       highlighted = self.selected == item_path and self.active
-      expanded = self.expanded.get(item_path, False)
-      rows.append(TallyRow(item_path, p, child, highlighted, expanded))
-      if child and self.expanded.get(item_path, None):
+      is_expanded = self._is_expanded(item_path)
+      rows.append(TallyRow(item_path, p, child, highlighted, is_expanded))
+      if child and is_expanded:
         rows.extend(self._rows(child, item_path))
     return rows
+
+  def _is_expanded(self, item_path):
+    if self.engine.current_room:
+      item_name = item_path[-1]
+      regions = self.engine.geography.regions_by_room_name.get(self.engine.current_room.name, [ ])
+      if item_name in regions:
+        return True
+    return self.expanded.get(item_path, False)
 
   def _sorted_items(self, tree):
     return sorted(tree.items(), key=lambda x: -x[1][0])
@@ -322,6 +330,9 @@ class UI(object):
     if self.clock:
       self.iwindow.addstr("\n")
       self.clock_renderer.render()
+
+    self.iwindow.addstr("\n")
+    self.iwindow.addstr("%s\n" % self.engine.current_room.name)
 
     self.iwindow.refresh()
 

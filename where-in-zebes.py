@@ -5,6 +5,7 @@ import argparse
 from items import Items
 from locations import Locations
 from geography import Geography
+from rooms import Rooms
 from seeds import Seeds
 from engine import Engine
 from curses_ui import UI
@@ -21,8 +22,9 @@ if __name__ == '__main__':
   items = Items.read('items.json')
   locations = Locations.read('locations.json')
   geography = Geography.read(locations, 'geography.json')
+  rooms = Rooms.read('rooms.json')
   seeds = Seeds.read(items, locations, 'seeds.json')
-  engine = Engine(items, locations, geography, seeds)
+  engine = Engine(items, locations, geography, rooms, seeds)
 
   if args.clock:
     clock = Clock()
