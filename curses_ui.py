@@ -331,8 +331,9 @@ class UI(object):
       self.iwindow.addstr("\n")
       self.clock_renderer.render()
 
-    self.iwindow.addstr("\n")
-    self.iwindow.addstr("%s\n" % self.engine.current_room.name)
+    if self.engine.current_room:
+      self.iwindow.addstr("\n")
+      self.iwindow.addstr("%s\n" % self.engine.current_room.name)
 
     self.iwindow.refresh()
 

@@ -89,7 +89,7 @@ class Autotracker(object):
     self.beams = beams
     self.locations = locations
 
-    self.engine.current_room = self.engine.rooms.by_id[room_id]
+    self.engine.current_room = self.engine.rooms.by_id.get(room_id, None)
 
     if self.clock:
       self.clock.igt = datetime.timedelta(seconds=igt_hours * 3600 + igt_minutes
