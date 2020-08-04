@@ -296,7 +296,7 @@ class UI(object):
     self.items_renderer.render()
 
     if self.clock:
-      self.iwindow.addstr("\nIGT: %s  RTA: %s" % (
+      self.iwindow.addstr("\nIGT: %s\nRTA: %s" % (
         self._format_duration(self.clock.igt),
         self._format_duration(self.clock.rta)))
 
