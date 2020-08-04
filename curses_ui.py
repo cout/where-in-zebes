@@ -70,11 +70,10 @@ class TallyRenderer(object):
 
   def _rows(self, tree, path):
     rows = [ ]
-    n = len(path)
-    for name, (p, child) in tree.items():
+    for name, (p, child) in self._sorted_items(tree):
       item_path = path + (name,)
       self.list.append(item_path)
-      if n == 0 and not self.did_expand_one_level:
+      if len(path) == 0 and not self.did_expand_one_level:
         self.expanded[item_path] = True
       if not self.selected:
         self.selected = item_path
@@ -84,6 +83,9 @@ class TallyRenderer(object):
       if child and self.expanded.get(item_path, None):
         rows.extend(self._rows(child, item_path))
     return rows
+
+  def _sorted_items(self, tree):
+    return sorted(tree.items(), key=lambda x: -x[1][0])
 
   def handle_input(self, s):
     if s == 'k' or s == curses.KEY_UP:
