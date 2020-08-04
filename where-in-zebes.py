@@ -35,6 +35,6 @@ if __name__ == '__main__':
   else:
     poll = lambda: None
 
-  UI.run(items=items, geography=geography, engine=engine, poll=poll, clock=clock)
+  UI.run(items=items, engine=engine, poll=poll, clock=clock)
 
   # print(engine.tally().probabilities())

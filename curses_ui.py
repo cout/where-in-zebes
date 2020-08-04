@@ -260,10 +260,9 @@ class ClockRenderer(object):
       return '{:}:{:02}:{:03}'.format(mm, ss, ms)
 
 class UI(object):
-  def __init__(self, screen, items, geography, engine, poll, clock):
+  def __init__(self, screen, items, engine, poll, clock):
     self.screen = screen
     self.items = items
-    self.geography = geography
     self.engine = engine
     self.poll = poll
     self.clock = clock
