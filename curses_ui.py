@@ -235,6 +235,30 @@ class ItemsRenderer(object):
     if new:
       self.selected = new
 
+class ClockRenderer(object):
+  def __init__(self, window, clock):
+    self.window = window
+    self.clock = clock
+
+  def render(self):
+    if self.clock:
+      if self.clock.igt:
+        self.window.addstr("IGT: %s\n" % self._format_duration(self.clock.igt))
+      if self.clock.rta:
+        self.window.addstr("RTA: %s\n" % self._format_duration(self.clock.rta))
+
+  def _format_duration(self, d):
+    secs = d.seconds
+    hh = secs // 3600
+    mm = secs % 3600 // 60
+    ss = secs % 60
+    ms =  int(d.microseconds / 1000)
+
+    if hh > 0:
+      return '{:}:{:02}:{:02}:{:03}'.format(hh, mm, ss, ms)
+    else:
+      return '{:}:{:02}:{:03}'.format(mm, ss, ms)
+
 class UI(object):
   def __init__(self, screen, items, geography, engine, poll, clock):
     self.screen = screen
@@ -253,6 +277,7 @@ class UI(object):
 
     self.tally_renderer = TallyRenderer(self.window, self.engine)
     self.items_renderer = ItemsRenderer(self.iwindow, self.items, self.engine)
+    self.clock_renderer = ClockRenderer(self.iwindow, self.clock)
 
     self.active_renderer = None
     self.set_active(self.tally_renderer)
@@ -297,24 +322,9 @@ class UI(object):
 
     if self.clock:
       self.iwindow.addstr("\n")
-      if self.clock.igt:
-        self.iwindow.addstr("IGT: %s\n" % self._format_duration(self.clock.igt))
-      if self.clock.rta:
-        self.iwindow.addstr("RTA: %s\n" % self._format_duration(self.clock.rta))
+      self.clock_renderer.render()
 
     self.iwindow.refresh()
-
-  def _format_duration(self, d):
-    secs = d.seconds
-    hh = secs // 3600
-    mm = secs % 3600 // 60
-    ss = secs % 60
-    ms =  int(d.microseconds / 1000)
-
-    if hh > 0:
-      return '{:}:{:02}:{:02}:{:03}'.format(hh, mm, ss, ms)
-    else:
-      return '{:}:{:02}:{:03}'.format(mm, ss, ms)
 
   def process_input(self):
     self.window.timeout(1000)
