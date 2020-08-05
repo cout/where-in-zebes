@@ -65,7 +65,6 @@ class TallyRenderer(object):
         except curses.error:
           pass
 
-    self.window.refresh()
     self.did_expand_one_level = True
 
   def _rows(self, tree, path):
@@ -326,7 +325,6 @@ class UI(object):
 
     self.tally_renderer.render()
     # self.window.addstr("\nTime to tally: %s\n" % self.engine.tally_time)
-    self.window.refresh()
 
     self.iwindow.move(0, 0)
     self.iwindow.clear()
@@ -340,6 +338,10 @@ class UI(object):
       self.iwindow.addstr("\n")
       self.iwindow.addstr("%s\n" % self.engine.current_room.name)
 
+    self.iwindow.addstr("\nRemaining seeds: %d\n" %
+        len(self.engine.viable_seeds()))
+
+    self.window.refresh()
     self.iwindow.refresh()
 
   def process_input(self):

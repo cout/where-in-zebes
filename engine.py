@@ -39,6 +39,7 @@ class Engine(object):
     self.geography = geography
     self.rooms = rooms
     self.seeds = seeds
+    self._viable_seeds = None
     self._tally = None
     self._tally_time = None
     self.current_room = None
@@ -84,16 +85,20 @@ class Engine(object):
     self.mark_dirty()
 
   def viable_seeds(self):
-    viable = 0
+    if self._viable_seeds:
+      return self._viable_seeds
+
+    viable = [ ]
 
     for seed in self.seeds:
       if self._viable_seed(seed):
-        yield seed
-        viable += 1
+        viable.append(seed)
 
-    if viable == 0:
-      for seed in self.seeds:
-        yield seed
+    if len(viable) == 0:
+      viable = self.seeds
+
+    self._viable_seeds = viable
+    return self._viable_seeds
 
   def _viable_seed(self, seed):
     for location, item in seed.locations:
@@ -104,3 +109,4 @@ class Engine(object):
 
   def mark_dirty(self):
     self._tally = None
+    self._viable_seeds = None
