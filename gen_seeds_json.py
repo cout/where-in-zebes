@@ -33,7 +33,14 @@ if __name__ == '__main__':
           if loc.has_key('Id'):
             # bosses don't have Ids
             locations[loc['Id']] = item['Code'] - 0xee00
-    seeds[seed] = locations
+
+    if seed is not None:
+      seeds[seed] = locations
 
   with open('seeds.json', 'w') as o:
-    o.write(json.dumps(seeds))
+    prefix = "{\n"
+    for seed, locs in seeds.items():
+      s = ','.join({ "\"%s\":%s" % (l, i) for l, i in locs.items() })
+      o.write("%s\"%d\":{%s}" % (prefix, seed, s))
+      prefix = ",\n"
+    o.write("}\n")
