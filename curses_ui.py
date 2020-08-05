@@ -193,7 +193,7 @@ class ItemsRenderer(object):
   def toggle_found(self, where):
     if not self.selected:
       return
-    if self.selected.found:
+    if self.selected.found and self.selected.found_in == where:
       self.set_unfound()
     else:
       self.set_found(where)
