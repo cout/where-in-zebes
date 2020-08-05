@@ -102,7 +102,7 @@ class Engine(object):
 
   def _viable_seed(self, seed):
     for location, item in seed.locations:
-      if item.found and item.found_in is not None and item.found_in != location.area:
+      if item.good and item.found and item.found_in is not None and item.found_in != location.area:
         return False
 
     return True
