@@ -12,7 +12,6 @@ if __name__ == '__main__':
   loc_names = { location['Name'] : location for location in locations }
   item_types = { item['Type'] : item for item in items }
 
-  print("HERE")
   for filename in glob.glob('seeds/*.txt'):
     print(filename)
     locations = { }
