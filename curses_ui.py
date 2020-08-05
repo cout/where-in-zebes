@@ -156,7 +156,10 @@ class ItemsRenderer(object):
         if not self.selected:
           self.selected = item
         if item.found:
-          sel = "[%s]" % item.found_in[0]
+          if item.found_in:
+            sel = "[%s]" % item.found_in[0]
+          else:
+            sel = "[?]"
         else:
           sel = '[ ]'
         attr = 0
@@ -185,6 +188,8 @@ class ItemsRenderer(object):
       self.toggle_found('WreckedShip')
     elif s == 'x':
       self.set_unfound()
+    elif s == '?':
+      self.toggle_found(None)
 
   def toggle_found(self, where):
     if not self.selected:

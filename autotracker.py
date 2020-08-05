@@ -50,6 +50,7 @@ class Autotracker(object):
     self.items = 0
     self.beams = 0
     self.locations = 0
+    self.first_poll = True
 
   def poll(self):
     region1 = MemoryRegion.read_from(self.sock, 0x0790, 0x1f)
@@ -74,7 +75,10 @@ class Autotracker(object):
     rta_frames = region5.short(0x5B8)
     rta_rollovers = region5.short(0x5BA)
 
-    area = RoomAreas[region_id]
+    if self.first_poll:
+      area = None
+    else:
+      area = RoomAreas[region_id]
     locations = region3.bignum(0xD870, 15)
 
     new_items = items & ~self.items
@@ -96,6 +100,8 @@ class Autotracker(object):
           * 60 + igt_seconds + igt_frames / fps)
       self.clock.rta = datetime.timedelta(seconds=(rta_frames + (rta_rollovers
         << 16)) / 60.0)
+
+    self.first_poll = False
 
   def item_names(self, items):
     if items & 0x0001: yield 'Varia'
