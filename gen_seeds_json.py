@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import json
 import glob
@@ -30,7 +30,7 @@ if __name__ == '__main__':
           loc = loc_names[loc_name]
           item = item_types[item_name]
 
-          if loc.has_key('Id'):
+          if 'Id' in loc:
             # bosses don't have Ids
             locations[loc['Id']] = item['Code'] - 0xee00
 
@@ -39,8 +39,8 @@ if __name__ == '__main__':
 
   with open('seeds.json', 'w') as o:
     prefix = "{\n"
-    for seed, locs in seeds.items():
-      s = ','.join({ "\"%s\":%s" % (l, i) for l, i in locs.items() })
+    for seed, locs in sorted(seeds.items()):
+      s = ','.join({ "\"%s\":%s" % (l, i) for l, i in sorted(locs.items()) })
       o.write("%s\"%d\":{%s}" % (prefix, seed, s))
       prefix = ",\n"
     o.write("}\n")
