@@ -341,8 +341,9 @@ class UI(object):
     self.iwindow.addstr("\nRemaining seeds: %d\n" %
         len(self.engine.viable_seeds()))
 
-    self.window.refresh()
-    self.iwindow.refresh()
+    self.window.noutrefresh()
+    self.iwindow.noutrefresh()
+    curses.doupdate()
 
   def process_input(self):
     self.window.timeout(1000)
