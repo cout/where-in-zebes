@@ -65,6 +65,13 @@ class TallyRenderer(object):
         except curses.error:
           pass
 
+      for rownum in range(len(self.list), height):
+        try:
+          self.window.addstr("\n")
+        except curses.error:
+          pass
+        self.window.clrtoeol()
+
     self.did_expand_one_level = True
 
   def _rows(self, tree, path):
@@ -321,13 +328,11 @@ class UI(object):
 
   def render(self):
     self.window.move(0, 0)
-    self.window.clear() # TODO: flicker
 
     self.tally_renderer.render()
     # self.window.addstr("\nTime to tally: %s\n" % self.engine.tally_time)
 
     self.iwindow.move(0, 0)
-    self.iwindow.clear()
     self.items_renderer.render()
 
     if self.clock:
