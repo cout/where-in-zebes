@@ -1,7 +1,7 @@
 import json
 
 def good_item(item):
-  return item.category == 'Progression' or item.type == 'Charge' or item.type == 'ScrewAttack'
+  return item.category == 'Progression' or item.type == 'Charge' or item.type == 'ScrewAttack' or item.type == 'Wave'
 
 class Item(object):
   def __init__(self, d):
