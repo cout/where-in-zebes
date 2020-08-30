@@ -5,6 +5,8 @@
 param="./RandomMetroidSolver/standard_presets/SMRAT2020.json"
 randoPreset="./RandomMetroidSolver/rando_presets/SMRAT2020.json"
 
+mkdir -p seeds
+
 while :
 do
   seed=($RANDOM % 1000000)
