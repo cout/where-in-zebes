@@ -41,6 +41,36 @@ RoomAreas = {
   0x07: 'Debug',
 }
 
+GameStates = {
+  0x01: 'titleScreen',
+  0x04: 'menu',
+  0x05: 'loadArea',
+  0x06: 'loadingGame',
+  0x07: 'saveCapsule',
+  0x08: 'normalGameplay',
+  0x09: 'elevator???',
+  0x0B: 'doorTransition',
+  0x0C: 'pausing'
+  0x0E: 'pausing2',
+  0x0F: 'inPauseMenu',
+  0x10: 'leavingPauseMenu',
+  0x12: 'leavingPauseMenu2',
+  0x15: 'dying'
+  0x17: 'dying2'
+  0x18: 'dying3'
+  0x19: 'dying4'
+  0x1A: 'dying5'
+  0x1F: 'startingGame???',
+  0x20: 'startOfCeresCutscene',
+  0x21: 'ceresCutscene1',
+  0x22: 'ceresCutscene2',
+  0x23: 'timerUp',
+  0x24: 'blackoutAndGameover',
+  0x26: 'preEndCutscene',
+  0x27: 'endCutscene',
+  0x2A: 'introDemos',
+}
+
 class Autotracker(object):
   def __init__(self, engine, clock):
     self.engine = engine
@@ -58,6 +88,8 @@ class Autotracker(object):
     region3 = MemoryRegion.read_from(self.sock, 0xD800, 0x8f)
     # region4 = MemoryRegion.read_from(self.sock, 0x0F80, 0x4f)
     region5 = MemoryRegion.read_from(self.sock, 0x05B0, 0x0f)
+
+    game_state = region2.short(0x998)
 
     room_id = region1.short(0x79B)
     region_id = region1.short(0x79F)
@@ -89,9 +121,10 @@ class Autotracker(object):
     for beam in self.beam_names(new_beams):      self.set_found(area, beam)
     for loc in self.location_ids(new_locations): self.set_visited(loc)
 
-    self.items = items
-    self.beams = beams
-    self.locations = locations
+    if GameStates.get(game_state, None) == 'normalGameplay':
+      self.items = items
+      self.beams = beams
+      self.locations = locations
 
     self.engine.current_room = self.engine.rooms.by_id.get(room_id, None)
 
